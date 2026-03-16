@@ -1,13 +1,20 @@
-from fastapi import Response,status,HTTPException
+from fastapi import Response,status,HTTPException,Depends
 from typing import Optional
 from fastapi import FastAPI
 from pydantic import BaseModel
 from random import randrange
 import psycopg2
 from psycopg2.extras import RealDictCursor
-import time 
+import time
+from sqlalchemy.orm import Session
+from . import models
+from . database import engine,SessionLocal,get_db
 
+
+models.Base.metadata.create_all(bind=engine)
 app= FastAPI()  # we import the FastAPI class and make an object 
+
+
 
 ## schema 
 class Post(BaseModel):
@@ -75,7 +82,7 @@ def update_posts(id:int,post:Post):
     conn.commit()
     return{'data':updated_post}
    
-
-
-
+@app.get("/sqlalchemy")
+def test_posts(db: Session  = Depends(get_db)):
+    return{"satus":"sucess"}
     
