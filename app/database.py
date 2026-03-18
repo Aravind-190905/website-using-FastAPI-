@@ -11,13 +11,10 @@ SQLALCHEMY_DATABASE_URL = os.getenv("SQLALCHEMY_DATABASE_URL")
 
 engine=create_engine(SQLALCHEMY_DATABASE_URL)
 
+
 #this is the sessionmaker class 
 
 SessionLocal=sessionmaker(autocommit=False,autoflush=False,bind=engine) # this is a class btw know more about "factory classes"
-
-Base =declarative_base()
-
-## lets define our tables using python in model.py
 
 def get_db():
     db = SessionLocal()
